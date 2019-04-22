@@ -20,24 +20,44 @@ h1.title {
 #game {
     margin: auto;
     width: 450px;
-    height: 450px;
+    height: 500;
 }
 
-svg {
+#board svg {
     width: 100%;
     height: 100%;
 }
-#board .board-line {
+.board-line {
     stroke:#F86624;
     stroke-width: .05;
 }
 
-#cross.mark {
+.edge {
+    stroke:#F86624;
+    stroke-width: 2;
+}
+
+.cross.mark {
     stroke: #666;
     stroke-width: 1;
 }
 
-#nought.mark {
+.nought.mark {
+    stroke: #eee;
+    stroke-width: 1;
+}
+
+#tree .mark {
+    stroke: #F86624;
+    stroke-width: 1;
+}
+
+#tree .cross.new {
+    stroke: #666;
+    stroke-width: 1;
+}
+
+#tree .nought.new {
     stroke: #eee;
     stroke-width: 1;
 }
@@ -70,8 +90,25 @@ rect[class^="panel-"], rect[class*=" panel-"] {
     animation: colorChange 1s forwards;
 }
 
+#tree {
+    width: 100%;
+    height: 100%;
+}
 
 
+.explore text {
+    font-size: 1.5px;
+    font-family: Trebuchet MS, serif;
+    fill: #666;
+}
+
+.explore rect {
+    fill: transparent;
+    rx: 1px;
+    ry: 1px;
+    stroke: #5bc0de;
+    stroke-width: .2;
+}
 
 
 

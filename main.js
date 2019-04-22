@@ -1,12 +1,11 @@
 define(['./app/gamecenter',
 	'./ui/ui',
-	'./ui/render'], 
-	function (GameCenter, UI, Render) {
+	'./ui/render',
+    './ui/minmax'], 
+	function (GameCenter, UI, Render, MinMax) {
 	
-	var gameCenter = new GameCenter();
 
-	var render = new Render();
+	new UI(new GameCenter(), new Render());
 
-	new UI(gameCenter, render);
-
+    new MinMax(new Render());
 });

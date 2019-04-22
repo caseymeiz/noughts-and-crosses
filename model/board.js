@@ -1,12 +1,13 @@
 define(['../constants'], function (constants) {
 
-    function Board () {
-        //  0 1 2
-        //  3 4 5
-        //  6 7 8
-        this.locations = [null, null, null, 
-                          null, null, null,
-                          null, null, null]
+    function Board (state) {
+        if (state) {
+            this.locations = state;
+        } else {
+            this.locations = [null, null, null, 
+                              null, null, null,
+                              null, null, null]
+        }
     };
 
     Board.prototype = {

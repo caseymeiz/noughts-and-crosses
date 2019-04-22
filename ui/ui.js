@@ -59,17 +59,13 @@ define(['../constants'],
                 if(writeCross || writeNought){
                     if (writeCross) {
                         mark = this.makeCross();
-                        mark.classList.add(constants.cross);
                     } else {
                         mark = this.makeNought();
-                        mark.classList.add(constants.nought);
                     }
-
                     mark.setAttribute('x', constants.locationLookUp[location].x);
                     mark.setAttribute('y', constants.locationLookUp[location].y);
                     mark.setAttribute('width', '1');
                     mark.setAttribute('height', '1');
-                    mark.classList.add('mark');
                     mark.classList.add('location-'+location)
                     this.boardSVG.appendChild(mark);
                 }
@@ -90,9 +86,10 @@ define(['../constants'],
         resetHandler : function (gamecenter) {
             return function (event) {
                 gamecenter.newGame();
-                var marks = document.getElementsByClassName('mark');
-                while(marks[0]){
-                    marks[0].parentNode.removeChild(marks[0]);
+                var mark = document.querySelector('#game .mark');
+                while(mark){
+                    mark.parentNode.removeChild(mark);
+                    mark = document.querySelector('#game .mark');
                 }
             };
         },
@@ -101,7 +98,7 @@ define(['../constants'],
             var nought = document.createElementNS(constants.svg.namespace, 'svg');
             var c = document.createElementNS(constants.svg.namespace, 'circle');
             nought.setAttribute('viewBox', '0 0 10 10');
-            nought.setAttribute('id', constants.nought);
+            nought.setAttribute('class', 'mark nought');
             nought.appendChild(c);
             c.setAttribute('cx', '5');
             c.setAttribute('cy', '5');
@@ -115,7 +112,7 @@ define(['../constants'],
             var p1 = document.createElementNS(constants.svg.namespace, 'path');
             var p2 = document.createElementNS(constants.svg.namespace, 'path');
             cross.setAttribute('viewBox', '0 0 10 10');
-            cross.setAttribute('id', constants.cross);
+            cross.setAttribute('class', 'mark cross');
             cross.appendChild(p1);
             cross.appendChild(p2);
             p1.setAttribute('d', 'M 1 1 L 9 9 Z');

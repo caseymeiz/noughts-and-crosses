@@ -1,9 +1,9 @@
 define(['../model/board'],function (Board) {
-    function GameService (player1, player2) {
+    function GameService (player1, player2, state) {
         this.player1 = player1;
         this.player2 = player2;
         this.currentPlayer = player1;
-        this.board = new Board();
+        this.board = new Board(state);
         this.winningMoves = null;
         this.moves = 0;
     };
