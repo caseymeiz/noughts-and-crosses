@@ -38,8 +38,8 @@ define(['../constants'],
                 panels[i].setAttribute('class', 'panel-'+i);
                 panels[i].setAttribute('width', '1');
                 panels[i].setAttribute('height', '1');
-                panels[i].setAttribute('x', constants.locationLookUp[i].x);
-                panels[i].setAttribute('y', constants.locationLookUp[i].y);
+                panels[i].setAttribute('x', constants.locationMap[i].x);
+                panels[i].setAttribute('y', constants.locationMap[i].y);
                 panels[i].addEventListener('click', this.moveHandler(gamecenter, i));
 
                 this.boardSVG.appendChild(panels[i]);
@@ -62,8 +62,8 @@ define(['../constants'],
                     } else {
                         mark = this.makeNought();
                     }
-                    mark.setAttribute('x', constants.locationLookUp[location].x);
-                    mark.setAttribute('y', constants.locationLookUp[location].y);
+                    mark.setAttribute('x', constants.locationMap[location].x);
+                    mark.setAttribute('y', constants.locationMap[location].y);
                     mark.setAttribute('width', '1');
                     mark.setAttribute('height', '1');
                     mark.classList.add('location-'+location)

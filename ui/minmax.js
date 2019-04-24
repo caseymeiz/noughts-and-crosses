@@ -18,17 +18,23 @@ define(['../constants'],
             this.treeSVG = document.createElementNS(constants.svg.namespace, 'svg');
             this.treeSVG.setAttribute('viewBox', '0 0 2520 4000');
 
+            var boardSize = 200;
+            var halfBoard = boardSize/2;
+            var explorHeight = boardSize*(70/150);
+            var levelHeight = 420;
+            var vertexHeight = explorHeight + boardSize;
+
             var rootSVG = this.render.build(this.rootState);
-            rootSVG.setAttribute('width', '150');
-            rootSVG.setAttribute('height', '150');
-            rootSVG.setAttribute('x', ''+((2520/2)-75));
+            rootSVG.setAttribute('width', boardSize);
+            rootSVG.setAttribute('height', boardSize);
+            rootSVG.setAttribute('x', ''+((2520/2)-halfBoard));
             rootSVG.setAttribute('y', '20');
             var button = this.render.makeButton();
-            button.setAttribute('width', '150');
-            button.setAttribute('height', '150');
-            button.setAttribute('x', ''+2520/2-75);
-            button.setAttribute('y', ''+(20+150));
-            button.addEventListener('click', this.exploreHandler(2520/2-75+75, [], 0, this.rootState, constants.nought, constants.cross));
+            button.setAttribute('width', boardSize);
+            button.setAttribute('height', boardSize);
+            button.setAttribute('x', ''+2520/2 - halfBoard);
+            button.setAttribute('y', ''+(20+boardSize));
+            button.addEventListener('click', this.exploreHandler(2520/2, [], 0, this.rootState, constants.nought, constants.cross));
             this.treeSVG.appendChild(button);
 
             for (var i = 0; i < path.length; i++) {
@@ -38,21 +44,21 @@ define(['../constants'],
                 for (var j = 0; j < succ.length; j++){
                     var succSVG = this.render.build(succ[j].board);
                     succSVG.getElementsByClassName('location-'+succ[j].move)[0].classList.add('new');
-                    succSVG.setAttribute('width', '150');
-                    succSVG.setAttribute('height', '150');
-                    var l = (2520*j/succ.length+75);
-                    succSVG.setAttribute('x', ''+l);
-                    succSVG.setAttribute('y', ''+(20+(400*(i+1))));
+                    succSVG.setAttribute('width', boardSize);
+                    succSVG.setAttribute('height', boardSize);
+                    var l = ((2520/succ.length)*j)+((2520/succ.length)/2) - halfBoard;
+                    succSVG.setAttribute('x', l);
+                    succSVG.setAttribute('y', (20+(levelHeight*(i+1))));
                     var line = document.createElementNS(constants.svg.namespace, 'path');
-                    line.setAttribute('d', 'M '+vertex.parentX+' '+(20+210+(400*(i)))+' L '+(l+75)+' '+(20+230+150+(400*(i)))+' Z');
+                    line.setAttribute('d', 'M '+vertex.parentX+' '+(20+vertexHeight+(levelHeight*i))+' L '+(l+halfBoard)+' '+(20+levelHeight+(levelHeight*(i)))+' Z');
                     line.classList.add('edge');
                     line.classList.add('depth-'+i);
                     var button = this.render.makeButton();
-                    button.setAttribute('width', '150');
-                    button.setAttribute('height', '150');
+                    button.setAttribute('width', boardSize);
+                    button.setAttribute('height', boardSize);
                     button.setAttribute('x', l);
-                    button.setAttribute('y', ''+(20+150+(400*(i+1))));
-                    button.addEventListener('click', this.exploreHandler(l+75, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
+                    button.setAttribute('y', ''+(20+boardSize+(levelHeight*(i+1))));
+                    button.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
                     this.treeSVG.appendChild(line);
                     this.treeSVG.appendChild(succSVG);
                     this.treeSVG.appendChild(button);

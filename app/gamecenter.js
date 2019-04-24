@@ -10,7 +10,7 @@ define(['./gameservice',
         constructor : GameCenter,
 
         newGame : function () {
-            this.game = new GameService({mark : constants.nought}, {mark : constants.cross});
+            this.game = new GameService({mark : constants.cross}, {mark : constants.nought});
         },
 
         gameState : function () {

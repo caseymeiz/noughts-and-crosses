@@ -5,14 +5,14 @@
 }
 
 body {
-    background-color: #F9C80E;
+    background-color: #FFEEAD;
     font-family: Trebuchet MS, serif;
 }
 
 h1.title {
     font-size: 3.5em;
     text-align: center;
-    color: #F86624;
+    color: #ffad60;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -28,12 +28,12 @@ h1.title {
     height: 100%;
 }
 .board-line {
-    stroke:#F86624;
+    stroke: #ffad60;
     stroke-width: .05;
 }
 
 .edge {
-    stroke:#F86624;
+    stroke: #ffad60;
     stroke-width: 2;
 }
 
@@ -43,12 +43,12 @@ h1.title {
 }
 
 .nought.mark {
-    stroke: #eee;
+    stroke: #d9534f;
     stroke-width: 1;
 }
 
 #tree .mark {
-    stroke: #F86624;
+    stroke: #ffad60;
     stroke-width: 1;
 }
 
@@ -58,7 +58,7 @@ h1.title {
 }
 
 #tree .nought.new {
-    stroke: #eee;
+    stroke: #d9534f;
     stroke-width: 1;
 }
 
@@ -67,9 +67,9 @@ rect[class^="panel-"], rect[class*=" panel-"] {
 }
 
 #reset {
-    border: 5px solid #F86624;
+    border: 5px solid #ffad60;
     background-color: transparent;
-    color: #F86624;
+    color: #ffad60;
     font-size: 2em;
     cursor: pointer;
     border-radius: 20px;
@@ -110,6 +110,19 @@ rect[class^="panel-"], rect[class*=" panel-"] {
     stroke-width: .2;
 }
 
+
+.post {
+    margin: auto;
+    width: 960px;
+}
+
+.post h2 {
+    color: #d9534f;
+}
+
+.post p {
+    color: #333;
+}
 
 
 

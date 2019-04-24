@@ -23,8 +23,8 @@ define(['../constants'],function (constants) {
                     mark.setAttribute('width', '1');
                     mark.setAttribute('height', '1');
                     mark.classList.add('location-'+i);
-                    mark.setAttribute('x', constants.locationLookUp[i].x);
-                    mark.setAttribute('y', constants.locationLookUp[i].y);
+                    mark.setAttribute('x', constants.locationMap[i].x);
+                    mark.setAttribute('y', constants.locationMap[i].y);
                     board.appendChild(mark);
                 }
             }
@@ -87,18 +87,18 @@ define(['../constants'],function (constants) {
             var text = document.createElementNS(constants.svg.namespace, 'text');
             var container = document.createElementNS(constants.svg.namespace, 'svg');
 
-            container.setAttribute('viewBox', '0 0 8 8');
+            container.setAttribute('viewBox', '0 0 12 12');
             container.appendChild(btn);
             container.appendChild(text);
             container.classList.add('explore');
 
-            btn.setAttribute('x', '0.1');
-            btn.setAttribute('y', '0.1');
-            btn.setAttribute('width', '7.8');
-            btn.setAttribute('height', '3');
+            btn.setAttribute('x', '1.0');
+            btn.setAttribute('y', '1.0');
+            btn.setAttribute('width', '10');
+            btn.setAttribute('height', '4');
 
-            text.setAttribute('x', '4');
-            text.setAttribute('y', '2.1');
+            text.setAttribute('x', '6');
+            text.setAttribute('y', '3');
             text.setAttribute('text-anchor', 'middle');
             text.setAttribute('alignment-baseline', 'center');
 
