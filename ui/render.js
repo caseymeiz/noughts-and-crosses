@@ -5,19 +5,22 @@ define(['../constants'],function (constants) {
     Render.prototype = {
         constructor : Render,
 
-        build : function (state) {
+        build : function (state, winMarks) {
             var board = this.makeBoard();
-            this.populate(board, state);
+            this.populate(board, state, winMarks);
             return board;
         },
 
-        populate : function(board, state) {
+        populate : function(board, state, winMarks) {
             for (var i = 0; i < 9; i++) {
                 var mark = null;
                 if (state[i] === constants.nought) {
                     mark = this.makeNought();
                 } else if (state[i] === constants.cross) {
                     mark = this.makeCross();
+                }
+                if (winMarks && winMarks.includes(i)) {
+                    mark.classList.add('win');
                 }
                 if (mark) {
                     mark.setAttribute('width', '1');

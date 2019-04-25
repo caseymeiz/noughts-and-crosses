@@ -35,10 +35,14 @@ define(['../constants'], function (constants) {
     };
 
     function sameMark (x, y, z) {
-        if (x === null){
+        if (x == null){
             return false;
         }
-        return x === y && x === z;
+        if (x === y && x === z) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     return Board;

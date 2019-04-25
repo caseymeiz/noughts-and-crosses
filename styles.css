@@ -55,11 +55,13 @@ h1.title {
 #tree .cross.new {
     stroke: #666;
     stroke-width: 1;
+    animation: none;
 }
 
 #tree .nought.new {
     stroke: #d9534f;
     stroke-width: 1;
+    animation: none;
 }
 
 rect[class^="panel-"], rect[class*=" panel-"] {
@@ -82,11 +84,11 @@ rect[class^="panel-"], rect[class*=" panel-"] {
     100%{stroke: #5bc0de}
 }
 
-#board .win.nought {
+.win.nought {
     animation: colorChange 1s forwards;
 }
 
-#board .win.cross {
+.win.cross {
     animation: colorChange 1s forwards;
 }
 

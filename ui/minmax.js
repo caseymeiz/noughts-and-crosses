@@ -1,5 +1,6 @@
-define(['../constants'],
-    function (constants) {
+define(['../constants',
+        '../model/board'],
+    function (constants, Board) {
 
     function MinMax (render) {
         this.render = render;
@@ -42,7 +43,9 @@ define(['../constants'],
 
                 var succ = this.succesors(vertex.current, vertex.turn);
                 for (var j = 0; j < succ.length; j++){
-                    var succSVG = this.render.build(succ[j].board);
+                    var b = new Board(succ[j].board);
+                    var winMoves = b.winLocations();
+                    var succSVG = this.render.build(succ[j].board, winMoves);
                     succSVG.getElementsByClassName('location-'+succ[j].move)[0].classList.add('new');
                     succSVG.setAttribute('width', boardSize);
                     succSVG.setAttribute('height', boardSize);
@@ -61,7 +64,10 @@ define(['../constants'],
                     button.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
                     this.treeSVG.appendChild(line);
                     this.treeSVG.appendChild(succSVG);
-                    this.treeSVG.appendChild(button);
+
+                    if (!winMoves) {
+                        this.treeSVG.appendChild(button);
+                    }
                 }
             }
 
