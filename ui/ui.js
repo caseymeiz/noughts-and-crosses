@@ -1,9 +1,9 @@
 define(['../constants'],
     function (constants) {
 
-    function UI (gamecenter, render) {
+    function UI (gamecenter, render, space) {
         this.init(gamecenter);
-
+        this.space = space;
         var resetButton = document.getElementById('reset');
         resetButton.addEventListener('click', this.resetHandler(gamecenter));
     };

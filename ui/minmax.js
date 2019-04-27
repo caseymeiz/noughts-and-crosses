@@ -3,13 +3,13 @@ define(['../constants',
         '../model/minmax'],
     function (constants, Board, ModelMinMax) {
 
-    function MinMax (render) {
+    function MinMax (render, space) {
         this.render = render;
         this.treeContainer = document.getElementById('tree');
         this.treeSVG = document.createElementNS(constants.svg.namespace, 'svg');
         this.treeContainer.appendChild(this.treeSVG);
         this.rootState = [null, null, null, null, null, null, null, null, null];
-        this.space = new ModelMinMax(Board, constants.nought, constants.cross);
+        this.space = space;
         this.buildTree([]);
 
     };

@@ -46,6 +46,7 @@ define(function () {
             } else {
                 root.score = Math.min.apply(Math, scores)
             }
+            root.bestMove = scores.indexOf(root.score)
         }
 
         return successors;
