@@ -7,7 +7,7 @@ define(['./app/gamecenter',
     './constants'], 
 	function (GameCenter, UI, Render, MinMax, ModelMinMax, Board, constants) {
 	
-    var space new ModelMinMax(Board, constants.nought, constants.cross);
+    var space = new ModelMinMax(Board, constants.nought, constants.cross);
 
 	new UI(new GameCenter(), new Render(), space);
 

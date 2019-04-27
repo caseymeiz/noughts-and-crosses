@@ -53,7 +53,7 @@ define(['../constants'],
 
         moveHandler : function (gamecenter, location) {
             return function (event) {
-                var writeNought = gamecenter.game.makeMove(location, constants.nought);
+                // var writeNought = gamecenter.game.makeMove(location, constants.nought);
                 var writeCross = gamecenter.game.makeMove(location, constants.cross);
                 var mark = null;
                 if(writeCross || writeNought){
@@ -79,6 +79,30 @@ define(['../constants'],
 
                         }
                     }
+                } else if (writeCross) {
+                    var id = gamecenter.game.board.locations.slice();
+                    id = id.join('-');
+                    var node = this.space.map[id]
+                    var move = node.successors[node.bestMove].move;
+                    gamecenter.game.makeMove(move, constants.nought);
+                    var nought = this.makeNought();
+                    nought.setAttribute('x', constants.locationMap[move].x);
+                    nought.setAttribute('y', constants.locationMap[move].y);
+                    nought.setAttribute('width', '1');
+                    nought.setAttribute('height', '1');
+                    nought.classList.add('location-'+move)
+                    this.boardSVG.appendChild(nought);
+                    if (gamecenter.game.isGameOver()) {
+                        var winLocations = gamecenter.game.winningMoves
+                        if(winLocations){
+                            for (var i = 0; i < 3; i++) {
+                                var winMarks = document.getElementsByClassName('location-'+winLocations[i])
+                                winMarks[0].classList.add('win');
+
+                            }
+                        }
+                    }
+
                 }
             }.bind(this);
         },
