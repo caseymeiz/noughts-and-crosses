@@ -85,7 +85,7 @@ define(['../constants'],function (constants) {
             return cross;
         },
 
-        makeButton : function () {
+        makeButton : function (extra) {
             var btn = document.createElementNS(constants.svg.namespace, 'rect');
             var text = document.createElementNS(constants.svg.namespace, 'text');
             var container = document.createElementNS(constants.svg.namespace, 'svg');
@@ -106,7 +106,7 @@ define(['../constants'],function (constants) {
             text.setAttribute('alignment-baseline', 'center');
 
 
-            text.textContent = 'Explore';
+            text.textContent = 'Explore '+extra;
 
             return container;
         }

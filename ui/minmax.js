@@ -1,6 +1,7 @@
 define(['../constants',
-        '../model/board'],
-    function (constants, Board) {
+        '../model/board',
+        '../model/minmax'],
+    function (constants, Board, ModelMinMax) {
 
     function MinMax (render) {
         this.render = render;
@@ -8,7 +9,9 @@ define(['../constants',
         this.treeSVG = document.createElementNS(constants.svg.namespace, 'svg');
         this.treeContainer.appendChild(this.treeSVG);
         this.rootState = [null, null, null, null, null, null, null, null, null];
+        this.space = new ModelMinMax(Board, constants.nought, constants.cross);
         this.buildTree([]);
+
     };
 
     MinMax.prototype = {
@@ -30,7 +33,11 @@ define(['../constants',
             rootSVG.setAttribute('height', boardSize);
             rootSVG.setAttribute('x', ''+((2520/2)-halfBoard));
             rootSVG.setAttribute('y', '20');
-            var button = this.render.makeButton();
+            var id = this.rootState.slice()
+            id.reverse();
+            id = id.join('-')
+            var t = this.space.map[id]
+            var button = this.render.makeButton(t.score);
             button.setAttribute('width', boardSize);
             button.setAttribute('height', boardSize);
             button.setAttribute('x', ''+2520/2 - halfBoard);
@@ -56,7 +63,10 @@ define(['../constants',
                     line.setAttribute('d', 'M '+vertex.parentX+' '+(20+vertexHeight+(levelHeight*i))+' L '+(l+halfBoard)+' '+(20+levelHeight+(levelHeight*(i)))+' Z');
                     line.classList.add('edge');
                     line.classList.add('depth-'+i);
-                    var button = this.render.makeButton();
+                    var id = succ[j].board.slice()
+                    id.reverse();
+                    id = id.join('-')
+                    var button = this.render.makeButton(this.space.map[id].score);
                     button.setAttribute('width', boardSize);
                     button.setAttribute('height', boardSize);
                     button.setAttribute('x', l);
