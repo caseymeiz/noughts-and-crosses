@@ -24,7 +24,7 @@ define(['../constants',
 
             var boardSize = 200;
             var halfBoard = boardSize/2;
-            var explorHeight = boardSize*(70/150);
+            var explorHeight = boardSize/3;
             var levelHeight = 420;
             var vertexHeight = explorHeight + boardSize;
 
@@ -37,7 +37,7 @@ define(['../constants',
             id.reverse();
             id = id.join('-')
             var t = this.space.map[id]
-            var button = this.render.makeButton(t.score);
+            var button = this.render.makeButton(constants.cross);
             button.setAttribute('width', boardSize);
             button.setAttribute('height', boardSize);
             button.setAttribute('x', ''+2520/2 - halfBoard);
@@ -60,18 +60,27 @@ define(['../constants',
                     succSVG.setAttribute('x', l);
                     succSVG.setAttribute('y', (20+(levelHeight*(i+1))));
                     var line = document.createElementNS(constants.svg.namespace, 'path');
-                    line.setAttribute('d', 'M '+vertex.parentX+' '+(20+vertexHeight+(levelHeight*i))+' L '+(l+halfBoard)+' '+(20+levelHeight+(levelHeight*(i)))+' Z');
+                    line.setAttribute('d', 'M '+vertex.parentX+' '+(20+vertexHeight+(levelHeight*i))+' L '+(l+halfBoard)+' '+(20+levelHeight-explorHeight+(levelHeight*(i)))+' Z');
                     line.classList.add('edge');
                     line.classList.add('depth-'+i);
                     var id = succ[j].board.slice()
                     id.reverse();
                     id = id.join('-')
-                    var button = this.render.makeButton(this.space.map[id].score);
+                    var button = this.render.makeButton(this.space.map[id].turn);
                     button.setAttribute('width', boardSize);
                     button.setAttribute('height', boardSize);
                     button.setAttribute('x', l);
                     button.setAttribute('y', ''+(20+boardSize+(levelHeight*(i+1))));
                     button.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
+                    succSVG.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
+
+                    var score = this.render.makeScore(this.space.map[id].score);
+                    score.setAttribute('width', boardSize);
+                    score.setAttribute('height', boardSize);
+                    score.setAttribute('x', l);
+                    score.setAttribute('y', ''+(20-(2*explorHeight)+(levelHeight*(i+1))));
+
+                    this.treeSVG.appendChild(score)
                     this.treeSVG.appendChild(line);
                     this.treeSVG.appendChild(succSVG);
 

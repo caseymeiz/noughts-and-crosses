@@ -64,8 +64,8 @@ define(function () {
                 width : 2520,
                 height : 400
             },
-            boardSize : 150,
-            exploreSpace : 50,
+            boardSize : 210,
+            exploreSpace : 70,
             verticalSpacing : 200
         }
     }

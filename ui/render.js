@@ -50,6 +50,11 @@ define(['../constants'],function (constants) {
             h2.setAttribute('d', 'M 2 0 L 2 3 Z');
             h2.setAttribute('class', 'board-line');
 
+            var panel = document.createElementNS(constants.svg.namespace, 'rect');
+            panel.setAttribute('width', '3');
+            panel.setAttribute('height', '3');
+            boardSVG.appendChild(panel);
+
             boardSVG.appendChild(v1);
             boardSVG.appendChild(v2);
             boardSVG.appendChild(h1);
@@ -85,30 +90,40 @@ define(['../constants'],function (constants) {
             return cross;
         },
 
-        makeButton : function (extra) {
-            var btn = document.createElementNS(constants.svg.namespace, 'rect');
-            var text = document.createElementNS(constants.svg.namespace, 'text');
+        makeButton : function (markType) {
             var container = document.createElementNS(constants.svg.namespace, 'svg');
 
-            container.setAttribute('viewBox', '0 0 12 12');
-            container.appendChild(btn);
-            container.appendChild(text);
-            container.classList.add('explore');
+            container.setAttribute('viewBox', '0 0 12 4');
 
-            btn.setAttribute('x', '1.0');
-            btn.setAttribute('y', '1.0');
-            btn.setAttribute('width', '10');
-            btn.setAttribute('height', '4');
+            container.classList.add('explore');
+            container.setAttribute('preserveAspectRatio','xMidYMin meet')
+
+            var mark = markType === constants.nought ? this.makeNought() : this.makeCross();
+            container.appendChild(mark);
+
+            var panel = document.createElementNS(constants.svg.namespace, 'rect');
+            panel.setAttribute('width', '12');
+            panel.setAttribute('height', '12');
+            container.appendChild(panel);
+
+            return container;
+        },
+
+        makeScore : function (value) {
+            var container = document.createElementNS(constants.svg.namespace, 'svg');
+            var text = document.createElementNS(constants.svg.namespace, 'text');
+
+            container.setAttribute('viewBox', '0 0 12 4');
+            text.textContent = value;
+            container.classList.add('explore');
 
             text.setAttribute('x', '6');
             text.setAttribute('y', '3');
             text.setAttribute('text-anchor', 'middle');
             text.setAttribute('alignment-baseline', 'center');
+            container.appendChild(text)
 
-
-            text.textContent = 'Explore '+extra;
-
-            return container;
+            return container
         }
 
     };
