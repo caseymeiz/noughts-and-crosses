@@ -20,12 +20,12 @@ define(['../constants',
         buildTree : function (path) {
             this.treeContainer.removeChild(this.treeSVG);
             this.treeSVG = document.createElementNS(constants.svg.namespace, 'svg');
-            this.treeSVG.setAttribute('viewBox', '0 0 2520 4000');
+            this.treeSVG.setAttribute('viewBox', '0 0 2520 6000');
 
-            var boardSize = 200;
+            var boardSize = constants.tree.boardSize;
             var halfBoard = boardSize/2;
             var explorHeight = boardSize/3;
-            var levelHeight = 420;
+            var levelHeight = constants.tree.verticalSpacing;
             var vertexHeight = explorHeight + boardSize;
 
             var rootSVG = this.render.build(this.rootState);
@@ -72,7 +72,6 @@ define(['../constants',
                     button.setAttribute('x', l);
                     button.setAttribute('y', ''+(20+boardSize+(levelHeight*(i+1))));
                     button.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
-                    succSVG.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
 
                     var score = this.render.makeScore(this.space.map[id].score);
                     score.setAttribute('width', boardSize);
@@ -85,6 +84,7 @@ define(['../constants',
                     this.treeSVG.appendChild(succSVG);
 
                     if (!winMoves) {
+                        succSVG.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
                         this.treeSVG.appendChild(button);
                     }
                 }

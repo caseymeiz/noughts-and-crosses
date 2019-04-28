@@ -66,7 +66,7 @@ define(function () {
             },
             boardSize : 210,
             exploreSpace : 70,
-            verticalSpacing : 200
+            verticalSpacing : 600
         }
     }
 
