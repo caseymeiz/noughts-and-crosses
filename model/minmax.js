@@ -75,21 +75,6 @@ define(function () {
 
     MinMax.prototype = {
         constructor : MinMax,
-
-        getSuccesors : function (state, currentMark) {
-            var succ = [];
-            for (var i = 0; i < 9; i++) {
-                if (state[i] === null){
-                    var successor = state.slice();
-                    successor[i] = currentMark;
-                    succ.push({
-                        board : successor,
-                        move : i
-                    });
-                }
-            }
-            return succ;
-        }
     };
 
 

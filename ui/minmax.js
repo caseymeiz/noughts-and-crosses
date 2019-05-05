@@ -34,8 +34,8 @@ define(['../constants',
             rootSVG.setAttribute('height', boardSize);
             rootSVG.setAttribute('x', ((2520/2)-halfBoard));
             rootSVG.setAttribute('y', offset);
+
             var id = this.rootState.slice()
-            id.reverse();
             id = id.join('-')
             var t = this.space.map[id]
             var button = this.render.makeButton(constants.cross);
@@ -44,14 +44,25 @@ define(['../constants',
             button.setAttribute('x', 2520/2 - halfBoard);
             button.setAttribute('y', offset+boardSize);
             button.addEventListener('click', this.exploreHandler(2520/2, [], 0, this.rootState, constants.nought, constants.cross));
+
+            var score = this.render.makeScore(this.space.map[id].score);
+            score.setAttribute('width', boardSize);
+            score.setAttribute('height', boardSize);
+            score.setAttribute('x', 2520/2 - halfBoard);
+            score.setAttribute('y', offset-(boardSize*2/3));
+
+            rootSVG.addEventListener('click', this.exploreHandler(2520/2, [], 0, this.rootState, constants.nought, constants.cross));
+
+            this.treeSVG.appendChild(score);
+            this.treeSVG.appendChild(rootSVG);
             this.treeSVG.appendChild(button);
+
 
             for (var i = 0; i < path.length; i++) {
                 var vertex = path[i];
 
 
                 var key = vertex.current.slice();
-                key.reverse();
                 key = key.join('-');
 
                 var succ = this.space.map[key].successors;
@@ -65,12 +76,13 @@ define(['../constants',
                     var l = ((2520/succ.length)*j)+((2520/succ.length)/2) - halfBoard;
                     succSVG.setAttribute('x', l);
                     succSVG.setAttribute('y', (offset+(levelHeight*(i+1))));
+
                     var line = document.createElementNS(constants.svg.namespace, 'path');
                     line.setAttribute('d', 'M '+vertex.parentX+' '+(offset+vertexHeight+(levelHeight*i))+' L '+(l+halfBoard)+' '+(offset+levelHeight-explorHeight+(levelHeight*(i)))+' Z');
                     line.classList.add('edge');
                     line.classList.add('depth-'+i);
+
                     var id = succ[j].board.locations.slice()
-                    id.reverse();
                     id = id.join('-')
                     var button = this.render.makeButton(this.space.map[id].turn);
                     button.setAttribute('width', boardSize);
@@ -96,7 +108,6 @@ define(['../constants',
                 }
             }
 
-            this.treeSVG.appendChild(rootSVG);
             this.treeContainer.appendChild(this.treeSVG);
         },
 

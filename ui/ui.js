@@ -4,8 +4,18 @@ define(['../constants'],
     function UI (gamecenter, render, space) {
         this.init(gamecenter);
         this.space = space;
+        this.playAs = constants.cross;
+        this.gamecenter = gamecenter;
+
         var resetButton = document.getElementById('reset');
         resetButton.addEventListener('click', this.resetHandler(gamecenter));
+
+        var playAsCross = document.getElementById('play-as-cross');
+        playAsCross.addEventListener('click', this.playAsCross.bind(this));
+
+        var playAsNought = document.getElementById('play-as-nought');
+        playAsNought.addEventListener('click', this.playAsNought.bind(this));
+
     };
 
     UI.prototype = {
@@ -40,7 +50,8 @@ define(['../constants'],
                 panels[i].setAttribute('height', '1');
                 panels[i].setAttribute('x', constants.locationMap[i].x);
                 panels[i].setAttribute('y', constants.locationMap[i].y);
-                panels[i].addEventListener('click', this.moveHandler(gamecenter, i));
+                panels[i].addEventListener('click', this.playAsCrossHandler(gamecenter, i));
+                panels[i].addEventListener('click', this.playAsNoughtHandler(gamecenter, i));
 
                 this.boardSVG.appendChild(panels[i]);
             }
@@ -51,8 +62,11 @@ define(['../constants'],
             this.boardSVG.appendChild(h2);
         },
 
-        moveHandler : function (gamecenter, location) {
+        playAsCrossHandler : function (gamecenter, location) {
             return function (event) {
+                if (this.playAs !== constants.cross) {
+                    return;
+                }
                 // var writeNought = gamecenter.game.makeMove(location, constants.nought);
                 var writeCross = gamecenter.game.makeMove(location, constants.cross);
                 var mark = null;
@@ -115,7 +129,89 @@ define(['../constants'],
                     mark.parentNode.removeChild(mark);
                     mark = document.querySelector('#game .mark');
                 }
-            };
+
+                if (this.playAs === constants.nought){
+                    var id = this.gamecenter.game.board.locations.slice();
+                    id = id.join('-');
+                    var node = this.space.map[id]
+                    var move = node.successors[node.bestMove].move;
+                    this.gamecenter.game.makeMove(move, constants.cross);
+                    var cross = this.makeCross();
+                    cross.setAttribute('x', constants.locationMap[move].x);
+                    cross.setAttribute('y', constants.locationMap[move].y);
+                    cross.setAttribute('width', '1');
+                    cross.setAttribute('height', '1');
+                    cross.classList.add('location-'+move)
+                    this.boardSVG.appendChild(cross);
+                }
+            }.bind(this);
+        },
+
+        playAsNoughtHandler : function (gamecenter, location) {
+            return function (event) {
+                if (this.playAs !== constants.nought) {
+                    return;
+                }
+                var writeNought = gamecenter.game.makeMove(location, constants.nought);
+                var mark = null;
+                if( writeNought){
+                    if (writeNought) {
+                        mark = this.makeNought();
+                    } 
+                    mark.setAttribute('x', constants.locationMap[location].x);
+                    mark.setAttribute('y', constants.locationMap[location].y);
+                    mark.setAttribute('width', '1');
+                    mark.setAttribute('height', '1');
+                    mark.classList.add('location-'+location)
+                    this.boardSVG.appendChild(mark);
+                }
+
+                if (gamecenter.game.isGameOver()) {
+                    var winLocations = gamecenter.game.winningMoves
+                    if(winLocations){
+                        for (var i = 0; i < 3; i++) {
+                            var winMarks = document.getElementsByClassName('location-'+winLocations[i])
+                            winMarks[0].classList.add('win');
+
+                        }
+                    }
+                } else if (writeNought) {
+                    var id = gamecenter.game.board.locations.slice();
+                    id = id.join('-');
+                    var node = this.space.map[id]
+                    var move = node.successors[node.bestMove].move;
+                    gamecenter.game.makeMove(move, constants.cross);
+                    var cross = this.makeCross();
+                    cross.setAttribute('x', constants.locationMap[move].x);
+                    cross.setAttribute('y', constants.locationMap[move].y);
+                    cross.setAttribute('width', '1');
+                    cross.setAttribute('height', '1');
+                    cross.classList.add('location-'+move)
+                    this.boardSVG.appendChild(cross);
+                    if (gamecenter.game.isGameOver()) {
+                        var winLocations = gamecenter.game.winningMoves
+                        if(winLocations){
+                            for (var i = 0; i < 3; i++) {
+                                var winMarks = document.getElementsByClassName('location-'+winLocations[i])
+                                winMarks[0].classList.add('win');
+
+                            }
+                        }
+                    }
+
+                }
+            }.bind(this);
+        },
+
+
+        playAsNought : function () {
+            this.playAs = constants.nought;
+            this.resetHandler(this.gamecenter)();
+        },
+
+        playAsCross : function () {
+            this.playAs = constants.cross;
+            this.resetHandler(this.gamecenter)();
         },
 
         makeNought : function () {
