@@ -27,12 +27,13 @@ define(['../constants',
             var explorHeight = boardSize/3;
             var levelHeight = constants.tree.verticalSpacing;
             var vertexHeight = explorHeight + boardSize;
+            var offset = 100;
 
             var rootSVG = this.render.build(this.rootState);
             rootSVG.setAttribute('width', boardSize);
             rootSVG.setAttribute('height', boardSize);
-            rootSVG.setAttribute('x', ''+((2520/2)-halfBoard));
-            rootSVG.setAttribute('y', '20');
+            rootSVG.setAttribute('x', ((2520/2)-halfBoard));
+            rootSVG.setAttribute('y', offset);
             var id = this.rootState.slice()
             id.reverse();
             id = id.join('-')
@@ -40,51 +41,56 @@ define(['../constants',
             var button = this.render.makeButton(constants.cross);
             button.setAttribute('width', boardSize);
             button.setAttribute('height', boardSize);
-            button.setAttribute('x', ''+2520/2 - halfBoard);
-            button.setAttribute('y', ''+(20+boardSize));
+            button.setAttribute('x', 2520/2 - halfBoard);
+            button.setAttribute('y', offset+boardSize);
             button.addEventListener('click', this.exploreHandler(2520/2, [], 0, this.rootState, constants.nought, constants.cross));
             this.treeSVG.appendChild(button);
 
             for (var i = 0; i < path.length; i++) {
                 var vertex = path[i];
 
-                var succ = this.succesors(vertex.current, vertex.turn);
+
+                var key = vertex.current.slice();
+                key.reverse();
+                key = key.join('-');
+
+                var succ = this.space.map[key].successors;
                 for (var j = 0; j < succ.length; j++){
-                    var b = new Board(succ[j].board);
+                    var b = new Board(succ[j].board.locations);
                     var winMoves = b.winLocations();
-                    var succSVG = this.render.build(succ[j].board, winMoves);
+                    var succSVG = this.render.build(succ[j].board.locations, winMoves);
                     succSVG.getElementsByClassName('location-'+succ[j].move)[0].classList.add('new');
                     succSVG.setAttribute('width', boardSize);
                     succSVG.setAttribute('height', boardSize);
                     var l = ((2520/succ.length)*j)+((2520/succ.length)/2) - halfBoard;
                     succSVG.setAttribute('x', l);
-                    succSVG.setAttribute('y', (20+(levelHeight*(i+1))));
+                    succSVG.setAttribute('y', (offset+(levelHeight*(i+1))));
                     var line = document.createElementNS(constants.svg.namespace, 'path');
-                    line.setAttribute('d', 'M '+vertex.parentX+' '+(20+vertexHeight+(levelHeight*i))+' L '+(l+halfBoard)+' '+(20+levelHeight-explorHeight+(levelHeight*(i)))+' Z');
+                    line.setAttribute('d', 'M '+vertex.parentX+' '+(offset+vertexHeight+(levelHeight*i))+' L '+(l+halfBoard)+' '+(offset+levelHeight-explorHeight+(levelHeight*(i)))+' Z');
                     line.classList.add('edge');
                     line.classList.add('depth-'+i);
-                    var id = succ[j].board.slice()
+                    var id = succ[j].board.locations.slice()
                     id.reverse();
                     id = id.join('-')
                     var button = this.render.makeButton(this.space.map[id].turn);
                     button.setAttribute('width', boardSize);
                     button.setAttribute('height', boardSize);
                     button.setAttribute('x', l);
-                    button.setAttribute('y', ''+(20+boardSize+(levelHeight*(i+1))));
-                    button.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
+                    button.setAttribute('y', ''+(offset+boardSize+(levelHeight*(i+1))));
+                    button.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board.locations, vertex.turn, vertex.nextTurn));
 
                     var score = this.render.makeScore(this.space.map[id].score);
                     score.setAttribute('width', boardSize);
                     score.setAttribute('height', boardSize);
                     score.setAttribute('x', l);
-                    score.setAttribute('y', ''+(20-(2*explorHeight)+(levelHeight*(i+1))));
+                    score.setAttribute('y', ''+(offset-(2*explorHeight)+(levelHeight*(i+1))));
 
                     this.treeSVG.appendChild(score)
                     this.treeSVG.appendChild(line);
                     this.treeSVG.appendChild(succSVG);
 
                     if (!winMoves) {
-                        succSVG.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board, vertex.turn, vertex.nextTurn));
+                        succSVG.addEventListener('click', this.exploreHandler(l+halfBoard, path, i, succ[j].board.locations, vertex.turn, vertex.nextTurn));
                         this.treeSVG.appendChild(button);
                     }
                 }
@@ -92,21 +98,6 @@ define(['../constants',
 
             this.treeSVG.appendChild(rootSVG);
             this.treeContainer.appendChild(this.treeSVG);
-        },
-
-        succesors : function (state, currentMark) {
-            var succ = [];
-            for (var i = 0; i < 9; i++) {
-                if (state[i] === null){
-                    var successor = state.slice();
-                    successor[i] = currentMark;
-                    succ.push({
-                        board : successor,
-                        move : i
-                    });
-                }
-            }
-            return succ;
         },
 
         exploreHandler : function (x, path, level, next, turn, nextTurn) {
