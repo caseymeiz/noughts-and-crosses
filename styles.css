@@ -102,6 +102,30 @@ rect[class^="panel-"], rect[class*=" panel-"] {
     width: 100%;
 }
 
+.options span {
+    display: inline-block;
+    width: 50%;
+    padding: 5px;
+}
+
+.options button {
+    border: 5px solid #ffad60;
+    background-color: transparent;
+    color: #ffad60;
+    font-size: 1.7em;
+    cursor: pointer;
+    border-radius: 20px;
+    outline: 0;
+    margin: 20px 0 0 0;
+    width: 100%;
+}
+
+.options button.active {
+    background-color: #ffad60;
+    color: #FFEEAD;
+}
+
+
 @keyframes colorChange {
     100%{stroke: #5bc0de}
 }

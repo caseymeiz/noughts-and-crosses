@@ -10,11 +10,11 @@ define(['../constants'],
         var resetButton = document.getElementById('reset');
         resetButton.addEventListener('click', this.resetHandler(gamecenter));
 
-        var playAsCross = document.getElementById('play-as-cross');
-        playAsCross.addEventListener('click', this.playAsCross.bind(this));
+        this.$playAsCross = document.getElementById('play-as-cross');
+        this.$playAsCross.addEventListener('click', this.playAsCross.bind(this));
 
-        var playAsNought = document.getElementById('play-as-nought');
-        playAsNought.addEventListener('click', this.playAsNought.bind(this));
+        this.$playAsNought = document.getElementById('play-as-nought');
+        this.$playAsNought.addEventListener('click', this.playAsNought.bind(this));
 
     };
 
@@ -206,11 +206,15 @@ define(['../constants'],
 
         playAsNought : function () {
             this.playAs = constants.nought;
+            this.$playAsCross.classList.remove('active');
+            this.$playAsNought.classList.add('active');
             this.resetHandler(this.gamecenter)();
         },
 
         playAsCross : function () {
             this.playAs = constants.cross;
+            this.$playAsCross.classList.add('active');
+            this.$playAsNought.classList.remove('active');
             this.resetHandler(this.gamecenter)();
         },
 
