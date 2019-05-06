@@ -2,6 +2,8 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -20,7 +22,12 @@ h1.title {
 #game {
     margin: auto;
     width: 450px;
-    height: 500;
+}
+
+@media (max-width: 600px) {
+    #game {
+        width: 90%;
+    }
 }
 
 #board svg {
